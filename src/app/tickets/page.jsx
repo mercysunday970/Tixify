@@ -94,35 +94,36 @@ export default function homepage() {
       setDialogOpen(false);
   };
 
-
 const handleDelete = (id) => {
-      setTicketToDelete(id);
-      setDeleteDialogOpen(true);
-  };
-
- const confirmDelete = () => {
-    if (ticketToDelete) {
-        setTickets((prev) => prev.filter((t) => t.id !== ticketToDelete));
-        setTicketToDelete(null);
-        setDeleteDialogOpen(false);
-        try {
-             toast.success("Ticket Deleted", {
-                 description: "The ticket has been successfully removed.",
-                 duration: 3000,
-             });
-        } catch (error) {
-            console.error("Toast notification failed to display:", error);
-        }
-    } else {
-
-        setDeleteDialogOpen(false);
-    }
+  console.log("Delete requested for id:", id);
+  setTicketToDelete(id);
+  setDeleteDialogOpen(true);
 };
 
+const confirmDelete = () => {
+  if (ticketToDelete !== null) {
+    console.log("Confirm delete for id:", ticketToDelete);
+    setTickets((prev) => prev.filter((t) => t.id !== ticketToDelete));
+    setTicketToDelete(null);
+    setDeleteDialogOpen(false);
+    try {
+      toast.success("Ticket Deleted", {
+        description: "The ticket has been successfully removed.",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Toast notification failed to display:", error);
+    }
+  } else {
+    setDeleteDialogOpen(false);
+  }
+};
+
+
    const formatDate = (isoString) => {
-    const date = new Date(isoString);
-    return date.toLocaleString();
-  };
+  const date = new Date(isoString);
+  return isNaN(date.getTime()) ? 'Unknown date' : date.toLocaleString();
+};
 
   const STATUS_OPTIONS = [
       { value: 'Open', label: 'Open' },
